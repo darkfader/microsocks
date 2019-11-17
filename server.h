@@ -28,14 +28,17 @@ union sockaddr_union {
 #define SOCKADDR_UNION_PORT(PTR) ( \
 	( SOCKADDR_UNION_AF(PTR) == AF_INET  ) ? (PTR)->v4.sin_port  : ( \
 	( SOCKADDR_UNION_AF(PTR) == AF_INET6 ) ? (PTR)->v6.sin6_port : 0 ) )
+struct server;
 
 struct client {
 	union sockaddr_union addr;
 	int fd;
+  struct server *server;
 };
 
 struct server {
 	int fd;
+  union sockaddr_union bind_addr;
 };
 
 int resolve(const char *host, unsigned short port, struct addrinfo** addr);
